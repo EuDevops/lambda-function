@@ -1,11 +1,74 @@
 # Terraform for AWS Lambda Functions
 
+## Lambda
+
 ```js
 module "my-lambda-function" {
+  source                = "git@gitlab.com:eudevops/lambda-function-with-terraform.git?ref=main"
+  description           = "My cool lambda function"
+  environment_vars      = {ENVIRONMENT="dev"}
+  function_handler      = "main.handler"
+  function_memory_size  = 128
+  function_name         = "my-cool-lambda"
+  function_runtime      = "python3.8"
+  function_timeout      = 3
+  iam_policies          = ["iam-policy-arn"]
+  tags                  = {MyTag="Cool Tag"}
 }
 ```
 
-## Requirements
+## Lambda in VPC
+
+```js
+module "my-lambda-function" {
+  source                = "git@gitlab.com:eudevops/lambda-function-with-terraform.git?ref=main"
+  description           = "My cool lambda function"
+  environment_vars      = {ENVIRONMENT="dev"}
+  function_handler      = "main.handler"
+  function_memory_size  = 128
+  function_name         = "my-cool-lambda"
+  function_runtime      = "python3.8"
+  function_timeout      = 3
+  iam_policies          = ["iam-policy-arn"]
+  security_group_ids    = ["my-sec-group-id"]
+  subnet_ids            = ["my-subnet-id"]
+  tags                  = {MyTag="Cool Tag"}
+}
+```
+
+**Note**: You may not need to setup the `tags` variable if you are using `default_tags` in terraform provider configuration, however, if your lambda needs custom tags that does not conflict with `default_tags` you need to setup this variable.
+
+## Deploy Terraform
+
+```sh
+terraform init
+terraform plan -out=tfplan
+terraform apply tfplan
+```
+
+## Deploy Lambda
+
+To deploy a version of the lambda function you don't need to run terraform. Using Gitlab CI/CD you can use the following template to update just the lambda function, assuming that in the `build` of your code you have exported a zip file as artifact.
+
+```yml
+.lambdaDeploy: &lambdaDeploy
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  stage: deploy
+  script:
+    - aws lambda update-function-code --function-name $LAMBDA_NAME --zip-file fileb://lambda.zip
+
+# Job definition example
+lambda_dev_deploy:
+  extends: .lambdaDeploy
+  variables:
+    LAMBDA_NAME: my-lambda-function
+    AWS_ACCESS_KEY_ID: $DEV_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+```
+
+**Hint**: Check more templates of Gitlab CI/CD [here](https://gitlab.com/lays147/ci-templates/-/tree/master).
+
+## Dev Requirements
 
 - [Pre commit hook](https://pre-commit.com/)
 - [Pre commit terraform](https://github.com/antonbabenko/pre-commit-terraform)
