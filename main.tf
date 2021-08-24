@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "role" {
 resource "aws_iam_role" "iam_for_lambda" {
   name               = "${var.function_name}-iam-role"
   description        = "Lambda Role"
-  assume_role_policy = data.aws_iam_policy_document.role
+  assume_role_policy = data.aws_iam_policy_document.role.json
 }
 
 resource "aws_iam_role_policy_attachment" "vpc_execution" {
