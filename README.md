@@ -117,6 +117,7 @@ No modules.
 | <a name="input_function_runtime"></a> [function\_runtime](#input\_function\_runtime) | Lambda choosen runtime | `string` | n/a | yes |
 | <a name="input_function_timeout"></a> [function\_timeout](#input\_function\_timeout) | Amount of seconds to lambda function timeout | `number` | `3` | no |
 | <a name="input_iam_policies"></a> [iam\_policies](#input\_iam\_policies) | List of IAM policies arn | `list(string)` | `[]` | no |
+| <a name="input_publish_version"></a> [publish\_version](#input\_publish\_version) | Update lambda version as new changes are deployed | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | Aws region to setup the lambda function | `string` | n/a | yes |
 | <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | Optional: List of security groups ids to place lambda inside a VPC | `list(string)` | `[]` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Optional: List of subnet ids to place lambda inside a VPC | `list(string)` | `[]` | no |

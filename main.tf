@@ -57,6 +57,7 @@ resource "aws_lambda_function" "l" {
   memory_size = var.function_memory_size
   timeout     = var.function_timeout
 
+  publish = var.publish_version
   vpc_config {
     subnet_ids         = var.subnet_ids
     security_group_ids = var.security_group_ids
