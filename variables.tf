@@ -47,6 +47,11 @@ variable "region" {
   description = "Aws region to setup the lambda function"
 }
 
+variable "publish_version" {
+  type        = bool
+  description = "Update lambda version as new changes are deployed"
+  default     = false
+}
 variable "security_group_ids" {
   type        = list(string)
   description = "Optional: List of security groups ids to place lambda inside a VPC"
