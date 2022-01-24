@@ -31,7 +31,7 @@ variable "function_runtime" {
   description = "Lambda choosen runtime"
   validation {
     condition = contains(["nodejs10.x", "nodejs12.x", "nodejs14.x", "java8", "java8.al2", "java11", "python3.6",
-    "python3.7", "python3.8", "dotnetcore2.1", "dotnetcore3.1", "go1.x", "ruby2.5", "ruby2.7"], var.function_runtime)
+    "python3.7", "python3.8", "python3.9", "dotnetcore2.1", "dotnetcore3.1", "go1.x", "ruby2.5", "ruby2.7"], var.function_runtime)
     error_message = "The provided runtime is not valid, please check lambda runtime docs."
   }
 }
